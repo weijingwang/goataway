@@ -45,7 +45,7 @@ class player():
 
 
 class myObject():
-    def __init__(self,x,y,w,h,outcome,image,screen):
+    def __init__(self,x,y,w,h,outcome,image,screen,isWall):
         self.x = x
         self.y = y
         self.w = w
@@ -53,6 +53,7 @@ class myObject():
         self.outcome = outcome
         self.image = image
         self.screen = screen
+        self.isWall = isWall
     def draw(self):
         self.screen.blit(self.image,(self.x,self.y))
         # print(self.x,self.y)
@@ -62,7 +63,7 @@ class myObject():
             if pX <= self.x+self.w:
                 if pY+pH >= self.y: #check y axis
                     if pY <= self.y+self.h:
-                        return True
+                        return True, self.isWall
 
 class level():
     def __init__(self,walls,exits,image,screen):
@@ -86,9 +87,9 @@ level_exits = [
 me = player(0,0,50,50,100,man,screen)
 
 
-testObject = myObject(500,200,50,50,"poo",tile,screen)#loop information (for loop from list) into here for every level
+testObject = myObject(500,200,50,50,"poo",tile,screen,False)#loop information (for loop from list) into here for every level
 
-testObject2 = myObject(100,400,50,50,"poo",tile,screen)#loop information (for loop from list) into here for every level
+testObject2 = myObject(100,400,50,50,"poo",tile,screen,True)#loop information (for loop from list) into here for every level
 
 
 level1 = level([" "],[" "],back1,screen)
