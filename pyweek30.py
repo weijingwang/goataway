@@ -9,6 +9,9 @@ done = False
 
 goat = pygame.image.load("./goat.png")
 back1 = pygame.image.load("./back1.png")
+back2 = pygame.image.load("./back2.png")
+back3 = pygame.image.load("./back3.png")
+
 man = pygame.image.load("./player1.png")
 
 class player():
@@ -20,7 +23,7 @@ class player():
         self.hp = hp
         self.image = image
         self.screen = screen
-        self.speed = 10
+        self.speed = 7
     def draw(self,level_data):
         pressed = pygame.key.get_pressed()	
         if pressed[pygame.K_LEFT]: self.x -= self.speed
@@ -30,30 +33,31 @@ class player():
         self.screen.blit(self.image,(self.x,self.y))
         # print(self.x,self.y)
 
-        # level1 = [[0,"exit"],[615,"exit"],[0,"exit"],[550,"wall"]]
-        # if self.x <= level_data[0][0] and level_data[0][1]=="wall": #right edge
-        #     print("STOP")
 
-        # elif self.x+self.w >= level_data[1][0] and level_data[0][1]=="wall":
-        #     print("STOP")
 
-        # elif self.y <= level_data[2][0] and level_data[0][1]=="wall":
-        #     print("STOP")
-
-        # elif self.y+self.h >= level_data[3][0] and level_data[0][1]=="wall":
-        #     print("STOP")
-        print(level_data[0][0])
         if self.x <= level_data[0][0]-80: #right edge
             self.x = level_data[0][0]-80
-            
+            if level_data[0][1] == "exit":
+                self.x+=700
+                print("x background -1 left")
         elif self.x+self.w >= level_data[1][0]+80:
             self.x = level_data[1][0]+80-self.w
+            if level_data[1][1] == "exit":
+                self.x-=700
+                print("x background +1 right")
 
         elif self.y <= level_data[2][0]-80:
             self.y = level_data[2][0]-80
+            if level_data[2][1] == "exit":
+                self.y+=280
+                print("y background -1 up")
 
         elif self.y+self.h >= level_data[3][0]+80:
             self.y = level_data[3][0]-self.h+80
+            if level_data[3][1] == "exit":
+                self.y-=280
+                print("y background +1 down")
+
 
     def info(self):
         return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen]
