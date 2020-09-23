@@ -1,6 +1,8 @@
 import pygame
 
 pygame.init()
+clock = pygame.time.Clock()
+
 screen = pygame.display.set_mode((800, 600))
 
 pygame.display.set_caption("pyweek 30 - castaway") 
@@ -15,21 +17,73 @@ back3 = pygame.image.load("./back3.png")
 man = pygame.image.load("./player1.png")
 
 class player():
-    def __init__(self,x,y,w,h,hp,image,screen):
+    def __init__(self,x,y,w,h,hp,screen):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
         self.hp = hp
-        self.image = image
+        # self.image = image
         self.screen = screen
         self.speed = 7
+
+        self.walk = False
+        #right
+        self.sprites = []
+        self.sprites.append(pygame.image.load('player1.png'))
+        self.sprites.append(pygame.image.load('player2.png'))
+        self.sprites.append(pygame.image.load('player3.png'))
+        self.sprites.append(pygame.image.load('player4.png'))
+        self.sprites.append(pygame.image.load('player5.png'))
+        self.sprites.append(pygame.image.load('player6.png'))
+        self.sprites.append(pygame.image.load('player7.png'))
+
+        #left
+        self.sprites_left = []
+        self.sprites_left.append(pygame.image.load('player_left1.png'))
+        self.sprites_left.append(pygame.image.load('player_left2.png'))
+        self.sprites_left.append(pygame.image.load('player_left3.png'))
+        self.sprites_left.append(pygame.image.load('player_left4.png'))
+        self.sprites_left.append(pygame.image.load('player_left5.png'))
+        self.sprites_left.append(pygame.image.load('player_left6.png'))
+        self.sprites_left.append(pygame.image.load('player_left7.png'))
+
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x,self.y]	
+
+        self.facing_right = True	
+
+    def update(self,speed):
+        if self.walk == True:
+            self.current_sprite +=speed
+            if int(self.current_sprite) >= len(self.sprites):
+                self.current_sprite = 0
+                self.walk = False
+        if self.facing_right == True:
+            self.image = self.sprites[int(self.current_sprite)]
+        elif self.facing_right == False:
+            self.image = self.sprites_left[int(self.current_sprite)]
+
     def draw(self,level_data):
         pressed = pygame.key.get_pressed()	
-        if pressed[pygame.K_LEFT]: self.x -= self.speed
-        elif pressed[pygame.K_RIGHT]: self.x += self.speed
-        elif pressed[pygame.K_UP]: self.y -= self.speed
-        elif pressed[pygame.K_DOWN]: self.y += self.speed
+        if pressed[pygame.K_LEFT]:
+            self.x -= self.speed
+            self.walk = True
+            self.facing_right = False
+        elif pressed[pygame.K_RIGHT]:
+            self.x += self.speed
+            self.walk = True
+            self.facing_right = True
+        elif pressed[pygame.K_UP]:
+            self.y -= self.speed
+            self.walk = True
+        elif pressed[pygame.K_DOWN]:
+            self.y += self.speed
+            self.walk = True
+
         self.screen.blit(self.image,(self.x,self.y))
         # print(self.x,self.y)
 
@@ -108,7 +162,7 @@ level1_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
 #add: if value is not an integer, ignore term.
 
 
-me = player(100,100,185,400,100,man,screen)
+me = player(100,100,185,400,100,screen)
 
 
 testObject = myObject(500,200,75,82,"poo",goat,screen,False)#loop information (for loop from list) into here for every level
@@ -131,13 +185,13 @@ while not done:
     level1.draw()
 
     testObject.draw()
-    testObject2.draw()
+    
 
     me.draw(level1_walls_exits)
     # print(object_collision_check_result_1)
     # print(object_collision_check_result_2)
+    testObject2.draw()
 
-
-
-
+    me.update(0.25)
+    clock.tick(60)
     pygame.display.flip()
