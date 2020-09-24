@@ -157,13 +157,32 @@ class level():
 
         self.background_count_x = 1
         self.background_count_y = 0
+        self.current_background_count_x = self.background_count_x
+        self.current_background_count_y = self.background_count_y
+
+        self.current_background = pygame.image.load("./assets/x1y0.png")
+
         # self.current_background = pygame.image.load("./assets/r0c2.png")
 
     # def find_background():
+    def set_my_background(self):
+        if self.background_count_x !=self.current_background_count_x or self.background_count_y != self.current_background_count_y:
+            if self.background_count_x==0 and self.background_count_y==0:
+                self.current_background = pygame.image.load("./assets/x0y0.png")
+                self.current_background_count_x =0
+                self.current_background_count_y=0
 
+            elif self.background_count_x==1 and self.background_count_y==0:
+                self.current_background = pygame.image.load("./assets/x1y0.png")
+                self.current_background_count_x =1
+                self.current_background_count_y=0
+            elif self.background_count_x==2 and self.background_count_y==0:
+                self.current_background = pygame.image.load("./assets/x2y0.png")
+                self.current_background_count_x=2
+                self.current_background_count_y=0
 
-    def locate(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
-        # print("current coords: ", self.background_count_x,self.background_count_y)
+    def decide_background(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
+        print("current coords: ", self.background_count_x,self.background_count_y)
         if self.background_count_x>=2:
             self.background_count_x=2
 
@@ -185,6 +204,9 @@ class level():
         elif player_exit_bottom==True:
             self.background_count_y-=1
             # print (self.background_count_y)
+
+        self.set_my_background()
+        self.screen.blit(self.current_background,(0,0))
         return self.background_count_x,self.background_count_y
 
 
@@ -196,8 +218,8 @@ class level():
         #define level borders first (where player can move)
         #then define if edge is a wall or an exit.
 
-    def draw(self,image):
-        self.screen.blit(image,(0,0))
+    # def draw(self,image):
+    #     self.screen.blit(image,(0,0))
 
 
 
@@ -212,12 +234,14 @@ pygame.display.set_caption("pyweek 30 - castaway")
 done = False
 
 #images
+# set_my_background(x,y)
+
 goat = pygame.image.load("./assets/goat.png")
 #backgrounds
-r0c0 = pygame.image.load("./assets/r0c0.png")
-r0c1 = pygame.image.load("./assets/r0c1.png")
-r0c2 = pygame.image.load("./assets/r0c2.png")
-r1 = pygame.image.load("./assets/r1.png")
+# r0c0 = pygame.image.load("./assets/r0c0.png")
+# r0c1 = pygame.image.load("./assets/r0c1.png")
+# r0c2 = pygame.image.load("./assets/r0c2.png")
+# r1 = pygame.image.load("./assets/r1.png")
 # backgrounds= [
 # [r0c0,r0c1,r0c2],
 # [r1,r1,r1]
@@ -250,16 +274,17 @@ while not done:
 
     object_collision_check_results = [object_collision_check_result_1, object_collision_check_result_2]
 
-    test = level1.locate(player_info[7],player_info[8],player_info[9],player_info[10])
-    level1.draw(r0c2)
+    test = level1.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
+
     testObject.draw()
+    testObject2.draw()
     
 
     me.draw(level1_walls_exits)
     print(test)
     # print(object_collision_check_result_1)
     # print(object_collision_check_result_2)
-    testObject2.draw()
+    
     me.update(0.25)
     clock.tick(60)
     pygame.display.flip()
