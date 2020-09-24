@@ -1,16 +1,5 @@
 import pygame
 
-pygame.init()
-clock = pygame.time.Clock()
-
-screen = pygame.display.set_mode((800, 600))
-
-pygame.display.set_caption("pyweek 30 - castaway") 
-
-done = False
-
-goat = pygame.image.load("./assets/goat.png")
-
 class player():
     def __init__(self,x,y,w,h,hp,screen):
         self.x = x
@@ -88,14 +77,12 @@ class player():
         self.screen.blit(self.image,(self.x,self.y))
         # print(self.x,self.y)
 
-
-
         if self.x <= level_data[0][0]-80: #right edge
             self.x = level_data[0][0]-80
             if level_data[0][1] == "exit":
                 self.x+=700
                 self.exit_left =True
-                print("x background -1 left",self.exit_left)
+                # print("x background -1 left",self.exit_left)
 
                 
         elif self.x+self.w >= level_data[1][0]+80:
@@ -103,7 +90,7 @@ class player():
             if level_data[1][1] == "exit":
                 self.x-=700
                 self.exit_right =True
-                print("x background +1 right",self.exit_right)
+                # print("x background +1 right",self.exit_right)
 
             
         elif self.y <= level_data[2][0]-80:
@@ -111,7 +98,7 @@ class player():
             if level_data[2][1] == "exit":
                 self.y+=280
                 self.exit_top =True
-                print("y background -1 up",self.exit_top)
+                # print("y background -1 up",self.exit_top)
 
 
         elif self.y+self.h >= level_data[3][0]+80:
@@ -119,18 +106,18 @@ class player():
             if level_data[3][1] == "exit":
                 self.y-=280
                 self.exit_bottom =True
-                print("y background +1 down",self.exit_bottom)
+                # print("y background +1 down",self.exit_bottom)
 
         else:
             self.exit_right = False
             self.exit_left = False
             self.exit_top = False
             self.exit_bottom = False
-
-
-
+            
     def info(self):
         return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
+
+
 
 
 class myObject():
@@ -154,14 +141,7 @@ class myObject():
                     if pY <= self.y+self.h:
                         return True, self.isWall
         return False
-#backgrounds
-r0c0 = pygame.image.load("./assets/r0c0.png")
-r0c1 = pygame.image.load("./assets/r0c1.png")
-r0c2 = pygame.image.load("./assets/r0c2.png")
-background_list = [[r0c0,r0c1,r0c2],[r0c0,r0c1,r0c2]]
-background_count_x = 2
-background_count_y = 0
-current_background = background_list[background_count_y][background_count_x]
+
 
 class level():
     def __init__(self,x1,x2,y1,y2,screen):
@@ -171,48 +151,44 @@ class level():
         self.y2 = y2
         self.screen = screen
 
-
         # self.background_list = []
-        # self.background_list.append([pygame.image.load("./assets/r0c0.png"),pygame.image.load("./assets/r0c1.png"),pygame.image.load("./assets/r0c2.png")])
+        # self.background_list.append(pygame.image.load("./assets/r0c0.png"))#,pygame.image.load("./assets/r0c1.png"),pygame.image.load("./assets/r0c2.png")
+        # self.background_list.append(pygame.image.load("./assets/r0c0.png"),pygame.image.load("./assets/r0c1.png"),pygame.image.load("./assets/r0c2.png")
+
+        self.background_count_x = 1
+        self.background_count_y = 0
+        # self.current_background = pygame.image.load("./assets/r0c2.png")
+
+    # def find_background():
 
 
-        # self.background_list_test = []
-        # self.background_list_test.append(pygame.image.load("./assets/r0c0.png"))
-        # self.background_list_test.append(pygame.image.load("./assets/r0c1.png"))
-        # self.background_list_test.append(pygame.image.load("./assets/r0c2.png"))
+    def locate(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
+        # print("current coords: ", self.background_count_x,self.background_count_y)
+        if self.background_count_x>=2:
+            self.background_count_x=2
 
-        # self.test_background = self.background_list_test[self.test_count] #COUNT NEEDS TO BE OUTSIDE
-
-
-        # self.background_row = 0
-        # self.background_column = 1
-        # self.row_max = [2,2]
-
-        # self.column_max = [2,2]#wiureathosjdyfujtdsraetyfurewrthj
-
-        # self.background = self.background_list[self.background_row][self.background_column] #[row][column]
-
-    def draw(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom,background_list,background_count_x,background_count_y,current_background): 
-        if background_count_x>=2:
-            background_count_x=2
-        elif background_count_x<=0:
-            background_count_x=0
+        elif self.background_count_x<=0:
+            self.background_count_x=0
 
         if player_exit_right==True:
-            background_count_x+=1
+            self.background_count_x+=1
+            # print ("++++++++++++++++++++++++++", self.background_count_x)
 
         elif player_exit_left==True:
-            background_count_x-=1
+            self.background_count_x-=1
+            # print (self.background_count_x)
+
         elif player_exit_top==True:
-            background_count_y+=1
+            self.background_count_y+=1
+            # print (self.background_count_y)
+
         elif player_exit_bottom==True:
-            background_count_y-=1
-
-        self.screen.blit(current_background,(0,0))
-
-
+            self.background_count_y-=1
+            # print (self.background_count_y)
+        return self.background_count_x,self.background_count_y
 
 
+        # self.screen.blit(self.current_background,(0,0))
 
         # print(self.walls,self.exits)
         return [self.x1, self.x2, self.y1, self.y2]
@@ -220,21 +196,49 @@ class level():
         #define level borders first (where player can move)
         #then define if edge is a wall or an exit.
 
-
-level1_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
-
-#add: if value is not an integer, ignore term.
+    def draw(self,image):
+        self.screen.blit(image,(0,0))
 
 
+
+
+
+
+
+pygame.init()
+clock = pygame.time.Clock()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("pyweek 30 - castaway") 
+done = False
+
+#images
+goat = pygame.image.load("./assets/goat.png")
+#backgrounds
+r0c0 = pygame.image.load("./assets/r0c0.png")
+r0c1 = pygame.image.load("./assets/r0c1.png")
+r0c2 = pygame.image.load("./assets/r0c2.png")
+r1 = pygame.image.load("./assets/r1.png")
+# backgrounds= [
+# [r0c0,r0c1,r0c2],
+# [r1,r1,r1]
+# ]
+
+#objects
 me = player(100,100,185,400,100,screen)
-
-
 testObject = myObject(500,200,75,82,"poo",goat,screen,False)#loop information (for loop from list) into here for every level
-
 testObject2 = myObject(100,400,75,82,"poo",goat,screen,True)#loop information (for loop from list) into here for every level
 
-
+#game information
+level1_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
 level1 = level(0,800,0,500,screen)
+
+
+
+
+
+
+
+#================================================MAIN GAME LOOP============================================================
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -246,13 +250,13 @@ while not done:
 
     object_collision_check_results = [object_collision_check_result_1, object_collision_check_result_2]
 
-    level1.draw(player_info[7],player_info[8],player_info[9],player_info[10],background_list,background_count_x,background_count_y,current_background)
-
+    test = level1.locate(player_info[7],player_info[8],player_info[9],player_info[10])
+    level1.draw(r0c2)
     testObject.draw()
     
 
     me.draw(level1_walls_exits)
-
+    print(test)
     # print(object_collision_check_result_1)
     # print(object_collision_check_result_2)
     testObject2.draw()
