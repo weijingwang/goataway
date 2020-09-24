@@ -144,7 +144,11 @@ class myObject():
 
 
 class level():
-    def __init__(self,screen):
+    def __init__(self,x1,x2,y1,y2,screen):
+        self.x1 = x1
+        self.x2 = x2
+        self.y1 = y1
+        self.y2 = y2
         self.screen = screen
 
         # self.background_list = []
@@ -158,6 +162,7 @@ class level():
 
         self.current_background = pygame.image.load("./assets/x1y0.png")
 
+<<<<<<< HEAD
 
         self.level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
         self.current_level_walls_exits = self.level_walls_exits
@@ -167,6 +172,8 @@ class level():
         self.level_objects = [500,200,75,82,"poo",goat,screen]
         self.current_level_objects = self.level_objects
 
+=======
+>>>>>>> parent of 1d05df1... functional walls and exits
         # self.current_background = pygame.image.load("./assets/r0c2.png")
 
     # def find_background():
@@ -176,38 +183,15 @@ class level():
                 self.current_background = pygame.image.load("./assets/x0y0.png")
                 self.current_background_count_x =0
                 self.current_background_count_y=0
-                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"exit"],[520,"wall"]]
 
             elif self.background_count_x==1 and self.background_count_y==0:
                 self.current_background = pygame.image.load("./assets/x1y0.png")
                 self.current_background_count_x =1
                 self.current_background_count_y=0
-                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
-
             elif self.background_count_x==2 and self.background_count_y==0:
                 self.current_background = pygame.image.load("./assets/x2y0.png")
                 self.current_background_count_x=2
                 self.current_background_count_y=0
-                self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"exit"],[520,"wall"]]
-                
-            elif self.background_count_x==0 and self.background_count_y==1:
-                self.current_background = pygame.image.load("./assets/y1.png")
-                self.current_background_count_x=0
-                self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"exit"],[520,"exit"]]
-
-            elif self.background_count_x==1 and self.background_count_y==1:
-                self.current_background = pygame.image.load("./assets/y1.png")
-                self.current_background_count_x=1
-                self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"exit"]]
-
-            elif self.background_count_x==2 and self.background_count_y==1:
-                self.current_background = pygame.image.load("./assets/y1.png")
-                self.current_background_count_x=2
-                self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"exit"],[520,"exit"]]
-            return self.current_level_walls_exits
 
     def decide_background(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
         print("current coords: ", self.background_count_x,self.background_count_y)
@@ -235,12 +219,13 @@ class level():
 
         self.set_my_background()
         self.screen.blit(self.current_background,(0,0))
-        return self.background_count_x,self.background_count_y, self.current_level_walls_exits
+        return self.background_count_x,self.background_count_y
 
 
         # self.screen.blit(self.current_background,(0,0))
 
         # print(self.walls,self.exits)
+        return [self.x1, self.x2, self.y1, self.y2]
         # return [[self.x1,exit], [self.x2,exit], [self.y1,exit], [self.y2,wall]]
         #define level borders first (where player can move)
         #then define if edge is a wall or an exit.
@@ -272,9 +257,8 @@ testObject = myObject(500,200,75,82,"poo",goat,screen)#loop information (for loo
 testObject2 = myObject(100,400,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
 
 #game information
-
-# x1y0 = level(0,800,0,500,screen)
-x1y0 = level(screen)
+level1_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
+level1 = level(0,800,0,500,screen)
 
 
 
@@ -294,13 +278,13 @@ while not done:
 
     object_collision_check_results = [object_collision_check_result_1, object_collision_check_result_2]
 
-    test = x1y0.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
+    test = level1.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
 
     testObject.draw()
     testObject2.draw()
     
 
-    me.draw(test[2])
+    me.draw(level1_walls_exits)
     print(test)
     # print(object_collision_check_result_1)
     # print(object_collision_check_result_2)
