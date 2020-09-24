@@ -121,7 +121,7 @@ class player():
 
 
 class myObject():
-    def __init__(self,x,y,w,h,outcome,image,screen,isWall):
+    def __init__(self,x,y,w,h,outcome,image,screen):
         self.x = x
         self.y = y
         self.w = w
@@ -129,9 +129,9 @@ class myObject():
         self.outcome = outcome
         self.image = image
         self.screen = screen
-        self.isWall = isWall
-    def draw(self):
-        self.screen.blit(self.image,(self.x,self.y))
+    def draw(self,level_data_for_objects):
+        for i in level_data_for_objects:
+            self.screen.blit(i[],(i[],i[]))
         # print(self.x,self.y)
 
     def collision_check(self,pX,pY,pW,pH):
@@ -139,7 +139,7 @@ class myObject():
             if pX <= self.x+self.w:
                 if pY+pH >= self.y: #check y axis
                     if pY <= self.y+self.h:
-                        return True, self.isWall
+                        return True
         return False
 
 
@@ -161,8 +161,11 @@ class level():
 
         self.level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
         self.current_level_walls_exits = self.level_walls_exits
+# testObject = myObject(500,200,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
+# testObject2 = myObject(100,400,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
 
-
+        self.level_objects = [500,200,75,82,"poo",goat,screen]
+        self.current_level_objects = self.level_objects
 
         # self.current_background = pygame.image.load("./assets/r0c2.png")
 
@@ -261,20 +264,12 @@ done = False
 # set_my_background(x,y)
 
 goat = pygame.image.load("./assets/goat.png")
-#backgrounds
-# r0c0 = pygame.image.load("./assets/r0c0.png")
-# r0c1 = pygame.image.load("./assets/r0c1.png")
-# r0c2 = pygame.image.load("./assets/r0c2.png")
-# r1 = pygame.image.load("./assets/r1.png")
-# backgrounds= [
-# [r0c0,r0c1,r0c2],
-# [r1,r1,r1]
-# ]
+
 
 #objects
 me = player(100,100,185,400,100,screen)
-testObject = myObject(500,200,75,82,"poo",goat,screen,False)#loop information (for loop from list) into here for every level
-testObject2 = myObject(100,400,75,82,"poo",goat,screen,True)#loop information (for loop from list) into here for every level
+testObject = myObject(500,200,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
+testObject2 = myObject(100,400,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
 
 #game information
 
