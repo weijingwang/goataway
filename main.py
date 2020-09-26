@@ -1,10 +1,10 @@
 import pygame
 import random
-
-def goatVoice():
-    pygame.mixer.stop()
-    whichVoice = random.choice([goat1,goat2,goat3,goat4,goat5])
-    whichVoice.play()	
+pygame.mixer.pre_init()
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("goataway (pyweek 30)")
+clock = pygame.time.Clock()
 
 class player():
     def __init__(self,x,y,w,h,hp,screen):
@@ -123,9 +123,6 @@ class player():
     def info(self):
         return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
 
-
-
-
 class myObject():
     def __init__(self,x,y,w,h,outcome,image,screen):
         self.x = x
@@ -185,11 +182,6 @@ class level():
         self.level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]
         self.current_level_walls_exits = self.level_walls_exits
 
-
-
-        # self.current_background = pygame.image.load("./assets/r0c2.png")
-
-    # def find_background():
     def set_my_background(self):
         if self.background_count_x !=self.current_background_count_x or self.background_count_y != self.current_background_count_y:
             if self.background_count_x==0 and self.background_count_y==0:
@@ -266,17 +258,6 @@ class level():
         return self.background_count_x,self.background_count_y, self.current_level_walls_exits
 
 
-        # self.screen.blit(self.current_background,(0,0))
-
-        # print(self.walls,self.exits)
-        # return [[self.x1,exit], [self.x2,exit], [self.y1,exit], [self.y2,wall]]
-        #define level borders first (where player can move)
-        #then define if edge is a wall or an exit.
-
-    # def draw(self,image):
-    #     self.screen.blit(image,(0,0))
-
-
 def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
     background_x = level_info[0]
     background_y = level_info[1]
@@ -318,80 +299,26 @@ def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
     else:
         pass
 
+def goatVoice():
+    pygame.mixer.stop()
+    whichVoice = random.choice([goat1,goat2,goat3,goat4,goat5])
+    whichVoice.play()	
+
+def displayText(surface,message,x,y,size,r,g,b):
+    myfont = pygame.font.Font(None,size)
+    textImage = myfont.render(message, True, (r,g,b))
+    surface.blit(textImage,(x,y))
 
 
 
 
-pygame.init()
-clock = pygame.time.Clock()
-screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("pyweek 30 - castaway") 
-done = False
+
+
 
 #images
-# set_my_background(x,y)
-
+title = pygame.image.load(("./assets/title.png"))
 goat = pygame.image.load("./assets/goat.png")
-#backgrounds
-# r0c0 = pygame.image.load("./assets/r0c0.png")
-# r0c1 = pygame.image.load("./assets/r0c1.png")
-# r0c2 = pygame.image.load("./assets/r0c2.png")
-# r1 = pygame.image.load("./assets/r1.png")
-# backgrounds= [
-# [r0c0,r0c1,r0c2],
-# [r1,r1,r1]
-# ]
-
-#objects
-me = player(100,100,185,400,100,screen)
-testObject = myObject(500,200,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
-testObject2 = myObject(100,400,75,82,"poo",goat,screen)#loop information (for loop from list) into here for every level
-
-my_objects = [
-    #0,0
-    [
-        [600,150,75,82,"poo",goat,screen],
-        [50,200,75,82,"poo",goat,screen],
-        [330,400,75,82,"poo",goat,screen]
-        ],
-    #1,0
-    [
-        [500,200,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen]
-        ],
-    #2,0
-    [
-        [400,200,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen]
-        ],
-    #0,1
-    [
-        [400,100,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen]
-        ],
-    #1,1
-    [
-        [200,300,75,82,"poo",goat,screen],
-        ],
-    #2,1
-    [
-        [50,150,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen],
-        [600,200,75,82,"poo",goat,screen]
-        ],
-
-]
-#game information
-
-# x1y0 = level(0,800,0,500,screen)
-x1y0 = level(screen)
-
-
 #music
-pygame.mixer.pre_init()
 pygame.mixer.music.load("./assets/sounds/poo_short.mp3") 
 pygame.mixer.music.play(-1,0.0)
 
@@ -403,29 +330,92 @@ goat5 = pygame.mixer.Sound("./assets/sounds/goat5.ogg")
 
 
 
+#================================================TITLE AND INTRO===========================================================
+
+def stillScene(picture,x,y,button):
+	done = False
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				quit()
+			elif event.type == pygame.KEYDOWN: 
+				if event.key == button:
+					done = True
+			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
+			pygame.display.flip()
+
 
 #================================================MAIN GAME LOOP============================================================
-while not done:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
 
-    player_info = me.info() # return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
+#game information
+def pleaseWork():
+    x1y0 = level(screen)
+    me = player(100,100,185,400,100,screen)
+    my_objects = [
+        #0,0
+        [
+            [600,150,75,82,"poo",goat,screen],
+            [50,200,75,82,"poo",goat,screen],
+            [330,400,75,82,"poo",goat,screen]
+            ],
+        #1,0
+        [
+            [500,200,75,82,"poo",goat,screen],
+            [100,400,75,82,"poo",goat,screen]
+            ],
+        #2,0
+        [
+            [400,200,75,82,"poo",goat,screen],
+            [100,400,75,82,"poo",goat,screen],
+            [300,500,75,82,"poo",goat,screen]
+            ],
+        #0,1
+        [
+            [400,100,75,82,"poo",goat,screen],
+            [100,400,75,82,"poo",goat,screen],
+            [300,500,75,82,"poo",goat,screen]
+            ],
+        #1,1
+        [
+            [200,300,75,82,"poo",goat,screen],
+            ],
+        #2,1
+        [
+            [50,150,75,82,"poo",goat,screen],
+            [100,400,75,82,"poo",goat,screen],
+            [300,500,75,82,"poo",goat,screen],
+            [600,200,75,82,"poo",goat,screen]
+            ],
 
-    current_level_info = x1y0.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
-    
-    # level_data_for_my_objects = current_level_info
+    ]
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                print("hi")
 
-    # testObject.draw()
-    # testObject2.draw()
-    render_all_objects(current_level_info,my_objects,player_info[0],player_info[1],player_info[2],player_info[3])
-    
+        player_info = me.info() # return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
 
-    me.draw(current_level_info[2])
-    # print(current_level_info)
-    # print(object_collision_check_result_1)
-    # print(object_collision_check_result_2)
-    
-    me.update(0.25)
-    clock.tick(60)
-    pygame.display.flip()
+        current_level_info = x1y0.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
+        
+        # level_data_for_my_objects = current_level_info
+
+        render_all_objects(current_level_info,my_objects,player_info[0],player_info[1],player_info[2],player_info[3])
+        
+
+        me.draw(current_level_info[2])
+        # print(current_level_info)
+        # print(object_collision_check_result_1)
+        # print(object_collision_check_result_2)
+        
+        me.update(0.25)
+        clock.tick(60)
+        pygame.display.flip()
+
+
+
+stillScene(title,0,0,pygame.K_RETURN)
+
+pleaseWork()
