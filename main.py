@@ -809,6 +809,26 @@ def gameIntro(surface,which_diologue):
                     return ENDING
                     done = True
 
+            if which_diologue == "forgive":
+                if pictureCount == 0:
+                    sayWhat = "heh ill let you off the hook this time. I could still use you"
+                    goatVoice()
+                elif pictureCount == 1:
+                    person = goat
+                    sayWhat = "..."
+                elif pictureCount == 2:
+                    person = black
+                    sayWhat = "you are still stuck on the island but"
+                elif pictureCount == 3:
+                    sayWhat = "perhaps big goat could help you in the near future......"
+                elif pictureCount == 4:
+                    sayWhat = "Thanks for playing! all the code, music and art was by me"
+                elif pictureCount == 5:
+                    sayWhat = "THE END"
+                if skip == True or pictureCount > 5:
+                    ENDING = True
+                    return ENDING
+                    done = True
         pygame.draw.rect(surface, (0,0,0), pygame.Rect(0, 500, 800, 100))
 
 
@@ -816,7 +836,44 @@ def gameIntro(surface,which_diologue):
         messageText(sayWhat,100,550,20,surface,255,255,255,"Roboto")
         pygame.display.update()
 
+def gameOutro(): #returns "eat" or "forgive"
+    bossX = 0
+    bossY = 0
+    done = False
 
+    while not done:
+        bossX = random.randrange(-1,1)
+        bossY = random.randrange(-1,1)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    return "eat"
+                elif event.key == pygame.K_f:
+                    return "forgive"
+
+        screen.blit(outro1, (bossX,bossY))
+        screen.blit(outro2, (0,0))
+
+
+        pygame.display.flip() 
+
+def final_ending(outcome):
+    done = False
+
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+        if outcome == "eat":
+            screen.blit(end1, (0,0))
+        elif outcome == "forgive":
+            screen.blit(black,(0,0))
+            gameIntro(screen,"forgive")
+
+
+        pygame.display.flip() 
 
 #images
 title = pygame.image.load(("./assets/title.png"))
@@ -825,6 +882,13 @@ intro1 = pygame.image.load(("./assets/intro1.png"))
 intro2 = pygame.image.load(("./assets/intro2.png"))
 intro3 = pygame.image.load(("./assets/intro3.png"))
 game_start = pygame.image.load(("./assets/game_start.png"))
+#intro
+outro1 = pygame.image.load(("./assets/outro1.png"))
+outro2 = pygame.image.load(("./assets/outro2.png"))
+#end
+end1 = pygame.image.load(("./assets/end1.png"))
+black = pygame.image.load(("./assets/black.png"))
+
 
 goat = pygame.image.load("./assets/goat.png")
 watamelon = pygame.image.load("./assets/watamelon.png")
@@ -980,16 +1044,15 @@ def main_game():
         clock.tick(60)
         pygame.display.flip()
 
-
-
-
-
-fadein(title,screen,1,False)
-stillScene(intro1,0,0,pygame.K_SPACE)
-stillScene(intro2,0,0,pygame.K_SPACE)
-stillScene(intro3,0,0,pygame.K_SPACE)
-fadein(game_start,screen,2,True)
-main_game()
+# fadein(title,screen,1,False)
+# stillScene(intro1,0,0,pygame.K_SPACE)
+# stillScene(intro2,0,0,pygame.K_SPACE)
+# stillScene(intro3,0,0,pygame.K_SPACE)
+# fadein(game_start,screen,2,True)
+# main_game()
+final_end_outcome = gameOutro() #eat or forgive
+final_ending(final_end_outcome)
+print("thank you for playing!")
 
 
 
