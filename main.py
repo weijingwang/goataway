@@ -1,7 +1,7 @@
 import pygame
 import random
 from fadein import *
-from displayText import *
+
 pygame.mixer.pre_init()
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -831,10 +831,9 @@ def gameIntro(surface,which_diologue):
                     sayWhat = "Thanks for playing! all the code, music and art was by me"
                 elif pictureCount == 7:
                     sayWhat = "THE END"
-                if skip == True or pictureCount > 5:
-                    ENDING = True
-                    return ENDING
-                    done = True
+                if skip == True or pictureCount > 7:
+                    quit()
+                    
         pygame.draw.rect(surface, (0,0,0), pygame.Rect(0, 500, 800, 100))
 
 
@@ -1050,13 +1049,17 @@ def main_game():
         clock.tick(60)
         pygame.display.flip()
 
-# fadein(title,screen,1,False)
-# stillScene(intro1,0,0,pygame.K_SPACE)
-# stillScene(intro2,0,0,pygame.K_SPACE)
-# stillScene(intro3,0,0,pygame.K_SPACE)
-# fadein(game_start,screen,2,True)
-# main_game()
+fadein(title,screen,1,False)
+stillScene(intro1,0,0,pygame.K_SPACE)
+stillScene(intro2,0,0,pygame.K_SPACE)
+stillScene(intro3,0,0,pygame.K_SPACE)
+fadein(game_start,screen,2,True)
+main_game()
+pygame.mixer.music.load("./assets/sounds/aaa.mp3")
+pygame.mixer.music.play(-1,0.0)
 final_end_outcome = gameOutro() #eat or forgive
+pygame.mixer.music.load("./assets/sounds/poo_short.mp3")
+pygame.mixer.music.play(-1,0.0)
 final_ending(final_end_outcome)
 print("thank you for playing!")
 
