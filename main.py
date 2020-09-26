@@ -151,7 +151,7 @@ class myObject():
                     if pY <= self.y+self.h:
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:
-                                done = True
+                                quit()
                             if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_SPACE:
                                     goatVoice()
