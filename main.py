@@ -211,7 +211,7 @@ class level():
                 self.current_background = pygame.image.load("./assets/y1.png")
                 self.current_background_count_x=0
                 self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"exit"],[520,"exit"]]
+                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"wall"],[520,"exit"]]
 
             elif self.background_count_x==1 and self.background_count_y==1:
                 self.current_background = pygame.image.load("./assets/y1.png")
@@ -223,7 +223,7 @@ class level():
                 self.current_background = pygame.image.load("./assets/y1.png")
                 self.current_background_count_x=2
                 self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"exit"],[520,"exit"]]
+                self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"wall"],[520,"exit"]]
 
             elif self.background_count_x==1 and self.background_count_y==2:
                 self.current_background = pygame.image.load("./assets/x1y2.png")
@@ -412,9 +412,9 @@ def main_game():
         clock.tick(60)
         pygame.display.flip()
 
-fadein(title,screen,0.5,False)
+fadein(title,screen,1,False)
 #intro story
-stillScene(goat,0,0,pygame.K_RETURN)
+stillScene(goat,0,0,pygame.K_SPACE)
 fadein(game_start,screen,2,True)
 
 # stillScene(title,0,0,pygame.K_RETURN)
