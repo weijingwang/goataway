@@ -332,6 +332,11 @@ def stillScene(image,x,y,button):
 
 #images
 title = pygame.image.load(("./assets/title.png"))
+#intro
+intro1 = pygame.image.load(("./assets/intro1.png"))
+intro2 = pygame.image.load(("./assets/intro2.png"))
+intro3 = pygame.image.load(("./assets/intro3.png"))
+
 game_start = pygame.image.load(("./assets/game_start.png"))
 goat = pygame.image.load("./assets/goat.png")
 #music
@@ -414,10 +419,12 @@ def main_game():
 
 fadein(title,screen,1,False)
 #intro story
-stillScene(goat,0,0,pygame.K_SPACE)
+stillScene(intro1,0,0,pygame.K_SPACE)
+stillScene(intro2,0,0,pygame.K_SPACE)
+stillScene(intro3,0,0,pygame.K_SPACE)
+
 fadein(game_start,screen,2,True)
 
-# stillScene(title,0,0,pygame.K_RETURN)
 main_game()
 
 
