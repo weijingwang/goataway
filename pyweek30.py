@@ -1,6 +1,11 @@
 import pygame
 import random
 
+def goatVoice():
+    pygame.mixer.stop()
+    whichVoice = random.choice([goat1,goat2,goat3,goat4,goat5])
+    whichVoice.play()	
+
 class player():
     def __init__(self,x,y,w,h,hp,screen):
         self.x = x
@@ -130,6 +135,7 @@ class myObject():
         self.outcome = outcome
         self.image = image
         self.screen = screen
+        self.talking_goat = False
 
     def draw(self):
         self.screen.blit(self.image,(self.x,self.y))
@@ -146,9 +152,17 @@ class myObject():
             if pX <= self.x+self.w:
                 if pY+pH >= self.y: #check y axis
                     if pY <= self.y+self.h:
-                        return True
-        return False
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_SPACE:
+                                goatVoice()
+                                self.talking_goat =True
+                                return self.talking_goat 
+        self.talking_goat =False
+        return self.talking_goat
 
+    def interaction_screen(self):
+        if self.talking_goat == True:
+            print("yaya!")
 
 
 
@@ -213,6 +227,14 @@ class level():
                 self.current_background_count_x=2
                 self.current_background_count_y=1
                 self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"exit"],[520,"exit"]]
+
+            elif self.background_count_x==1 and self.background_count_y==2:
+                self.current_background = pygame.image.load("./assets/x1y2.png")
+                self.current_background_count_x=1
+                self.current_background_count_y=2
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"exit"]]
+
+
             return self.current_level_walls_exits
 
     def decide_background(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
@@ -255,7 +277,7 @@ class level():
     #     self.screen.blit(image,(0,0))
 
 
-def render_all_objects(level_info,object_info):
+def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
     background_x = level_info[0]
     background_y = level_info[1]
     if background_x == 0 and background_y == 0:
@@ -265,27 +287,33 @@ def render_all_objects(level_info,object_info):
             # draw_goats = myObject(object_info[0][0],object_info[0][1],object_info[0][2],object_info[0][3],object_info[0][4],object_info[0][5],object_info[0][6])
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
         #create objects based off given info in list with object class
     elif background_x == 1 and background_y == 0:
         for goat in object_info[1]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
     elif background_x == 2 and background_y == 0:
         for goat in object_info[2]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
     elif background_x == 0 and background_y == 1:
         for goat in object_info[3]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
     elif background_x == 1 and background_y == 1:
         for goat in object_info[4]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
     elif background_x == 2 and background_y == 1:
         for goat in object_info[5]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
             draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
 
     else:
         pass
@@ -322,9 +350,9 @@ testObject2 = myObject(100,400,75,82,"poo",goat,screen)#loop information (for lo
 my_objects = [
     #0,0
     [
-        [500,200,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen]
+        [600,150,75,82,"poo",goat,screen],
+        [50,200,75,82,"poo",goat,screen],
+        [330,400,75,82,"poo",goat,screen]
         ],
     #1,0
     [
@@ -345,15 +373,14 @@ my_objects = [
         ],
     #1,1
     [
-        [150,200,75,82,"poo",goat,screen],
-        [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen]
+        [200,300,75,82,"poo",goat,screen],
         ],
     #2,1
     [
         [50,150,75,82,"poo",goat,screen],
         [100,400,75,82,"poo",goat,screen],
-        [300,500,75,82,"poo",goat,screen]
+        [300,500,75,82,"poo",goat,screen],
+        [600,200,75,82,"poo",goat,screen]
         ],
 
 ]
@@ -374,10 +401,6 @@ goat3 = pygame.mixer.Sound("./assets/sounds/goat3.ogg")
 goat4 = pygame.mixer.Sound("./assets/sounds/goat4.ogg")
 goat5 = pygame.mixer.Sound("./assets/sounds/goat5.ogg")
 
-def goatVoice():
-    pygame.mixer.stop()
-    whichVoice = random.choice([goat1,goat2,goat3,goat4,goat5])
-    whichVoice.play()	
 
 
 
@@ -386,16 +409,8 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                goatVoice()
 
-    player_info = me.info()
-
-    object_collision_check_result_1 = testObject.collision_check(player_info[0],player_info[1],player_info[2],player_info[3])
-    object_collision_check_result_2 = testObject2.collision_check(player_info[0],player_info[1],player_info[2],player_info[3])
-
-    object_collision_check_results = [object_collision_check_result_1, object_collision_check_result_2]
+    player_info = me.info() # return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
 
     current_level_info = x1y0.decide_background(player_info[7],player_info[8],player_info[9],player_info[10])
     
@@ -403,7 +418,7 @@ while not done:
 
     # testObject.draw()
     # testObject2.draw()
-    render_all_objects(current_level_info,my_objects)
+    render_all_objects(current_level_info,my_objects,player_info[0],player_info[1],player_info[2],player_info[3])
     
 
     me.draw(current_level_info[2])
