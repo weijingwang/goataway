@@ -189,6 +189,7 @@ class level():
         self.current_level_walls_exits = self.level_walls_exits
 
     def set_my_background(self):
+        print(self.background_count_x,self.background_count_y)
         if self.background_count_x !=self.current_background_count_x or self.background_count_y != self.current_background_count_y:
             if self.background_count_x==0 and self.background_count_y==0:
                 self.current_background = pygame.image.load("./assets/x0y0.png")
@@ -207,12 +208,19 @@ class level():
                 self.current_background_count_x=2
                 self.current_background_count_y=0
                 self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"exit"],[520,"wall"]]
-                
+            
+            elif self.background_count_x==-1 and self.background_count_y==1:
+                self.current_background = pygame.image.load("./assets/y1.png")
+                self.current_background_count_x=-1
+                self.current_background_count_y=1
+                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"wall"],[520,"wall"]]
+
+
             elif self.background_count_x==0 and self.background_count_y==1:
                 self.current_background = pygame.image.load("./assets/y1.png")
                 self.current_background_count_x=0
                 self.current_background_count_y=1
-                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"wall"],[520,"exit"]]
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"wall"],[520,"exit"]]
 
             elif self.background_count_x==1 and self.background_count_y==1:
                 self.current_background = pygame.image.load("./assets/x1y1.png")
@@ -246,7 +254,43 @@ class level():
                 self.current_background_count_x=3
                 self.current_background_count_y=3
                 self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"wall"],[520,"wall"]]
-            print(self.background_count_x,self.background_count_y)
+            elif self.background_count_x==1 and self.background_count_y==4:
+                self.current_background = pygame.image.load("./assets/y4.png")
+                self.current_background_count_x=1
+                self.current_background_count_y=4
+                self.current_level_walls_exits = [[0,"wall"],[800,"wall"],[0,"exit"],[520,"exit"]]
+            elif self.background_count_x==1 and self.background_count_y==5:
+                self.current_background = pygame.image.load("./assets/y5.png")
+                self.current_background_count_x=1
+                self.current_background_count_y=5
+                self.current_level_walls_exits = [[0,"wall"],[800,"wall"],[0,"exit"],[520,"exit"]]
+            elif self.background_count_x==0 and self.background_count_y==6:
+                self.current_background = pygame.image.load("./assets/y6.png")
+                self.current_background_count_x=0
+                self.current_background_count_y=6
+                self.current_level_walls_exits = [[0,"wall"],[800,"exit"],[0,"wall"],[520,"wall"]]
+            elif self.background_count_x==1 and self.background_count_y==6:
+                self.current_background = pygame.image.load("./assets/y6.png")
+                self.current_background_count_x=1
+                self.current_background_count_y=6
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"wall"],[520,"exit"]]
+            elif self.background_count_x==2 and self.background_count_y==6:
+                self.current_background = pygame.image.load("./assets/y6.png")
+                self.current_background_count_x=2
+                self.current_background_count_y=6
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"wall"],[520,"wall"]]
+            elif self.background_count_x==3 and self.background_count_y==6:
+                self.current_background = pygame.image.load("./assets/y6.png")
+                self.current_background_count_x=3
+                self.current_background_count_y=6
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"wall"],[520,"wall"]]
+            elif self.background_count_x==4 and self.background_count_y==6:
+                self.current_background = pygame.image.load("./assets/y6.png")
+                self.current_background_count_x=4
+                self.current_background_count_y=6
+                self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"exit"],[520,"wall"]]               
+
+
             return self.current_level_walls_exits
 
     def decide_background(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
@@ -320,6 +364,14 @@ def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
             if do_diologue ==True:
                 gameIntro(screen,"goat")
                 do_diologue= False
+    elif background_x == -1 and background_y == 1:
+        for goat in object_info[11]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"watamelon")
+                do_diologue= False
     elif background_x == 0 and background_y == 1:
         for goat in object_info[3]:
             draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
@@ -376,6 +428,61 @@ def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
             if do_diologue ==True:
                 gameIntro(screen,"waterfall")
                 do_diologue= False
+    elif background_x == 1 and background_y == 4:
+        for goat in object_info[10]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+    #11 (next one object info is 12!!!!)
+    elif background_x == 1 and background_y == 5:
+        for goat in object_info[12]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"climb")
+                do_diologue= False
+    elif background_x == 0 and background_y == 6:
+        for goat in object_info[13]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"goat")
+                do_diologue= False
+    elif background_x == 1 and background_y == 6:
+        for goat in object_info[14]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"goat")
+                do_diologue= False
+    elif background_x == 2 and background_y == 6:
+        for goat in object_info[15]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"goat")
+                do_diologue= False
+    elif background_x == 3 and background_y == 6:
+        for goat in object_info[16]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"goat")
+                do_diologue= False
+    elif background_x == 4 and background_y == 6:
+        for goat in object_info[17]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"goat")
+                do_diologue= False
+
     else:
         pass
 
@@ -571,6 +678,29 @@ def gameIntro(surface,which_diologue):
                     sayWhat = "oh yeah yeah oh yeah yeah"
                 if skip == True or pictureCount > 3:
                     done = True
+            
+            if which_diologue == "watamelon":
+                if pictureCount == 0:
+                    sayWhat = "lol"
+                elif pictureCount == 1:
+                    person = watamelon
+                    sayWhat = "lol"
+                if skip == True or pictureCount > 1:
+                    done = True
+
+            if which_diologue == "climb":
+                if pictureCount == 0:
+                    sayWhat = "out of my way, fool"
+                elif pictureCount == 1:
+                    person = goat
+                    sayWhat = "..."
+                    goatVoice()
+                elif pictureCount == 2:
+                    person = face_player
+                    sayWhat = "gggrgrrrrrrrrr ggggrrrrrrr"
+                if skip == True or pictureCount > 2:
+                    done = True
+
         pygame.draw.rect(surface, (0,0,0), pygame.Rect(0, 500, 800, 100))
 
 
@@ -589,6 +719,7 @@ intro3 = pygame.image.load(("./assets/intro3.png"))
 game_start = pygame.image.load(("./assets/game_start.png"))
 
 goat = pygame.image.load("./assets/goat.png")
+watamelon = pygame.image.load("./assets/watamelon.png")
 monk = pygame.image.load("./assets/monk.png")
 walkie_talkie = pygame.image.load("./assets/walkie_talkie.png")
 worm= pygame.image.load("./assets/worm.png")
@@ -667,8 +798,49 @@ my_objects = [
         [400,400,150,164,"poo",goat,screen],
         [500,500,150,164,"poo",goat,screen],
         [600,600,150,164,"poo",goat,screen]
+        ],
+        #1,4
+    [
+#warteawetaweagiwegdsUDGSAIGDIAUSDIGAidagsdgSDGIagsdgasuGDa
+        ],
+        #-1,1
+    [
+        [300,200,150,200,"poo",watamelon,screen]
+        ],
+        #1,5
+    [
+        [300,200,150,200,"poo",goat,screen]
+        ],
+
+        #0,6
+    [
+
+        ],
+        #1,6
+    [
+        [300,200,150,200,"poo",goat,screen]
+        ],
+        #2,6
+    [
+        [200,200,150,200,"poo",goat,screen],
+        [400,200,150,200,"poo",goat,screen]
+        ],
+        #3,6
+    [
+        [200,200,150,200,"poo",goat,screen],
+        [300,200,150,200,"poo",goat,screen],
+        [400,200,150,200,"poo",goat,screen]
+        ],
+        #4,6
+    [
+        [100,200,150,200,"poo",goat,screen],
+        [250,200,150,200,"poo",goat,screen],
+        [350,200,150,200,"poo",goat,screen],
+        [500,200,150,200,"poo",goat,screen],
+
         ]
 ]
+
 def main_game():
     done = False
     while not done:
@@ -698,13 +870,11 @@ def main_game():
 
 
 
-
-
-# fadein(title,screen,1,False)
-# stillScene(intro1,0,0,pygame.K_SPACE)
-# stillScene(intro2,0,0,pygame.K_SPACE)
-# stillScene(intro3,0,0,pygame.K_SPACE)
-# fadein(game_start,screen,2,True)
+fadein(title,screen,1,False)
+stillScene(intro1,0,0,pygame.K_SPACE)
+stillScene(intro2,0,0,pygame.K_SPACE)
+stillScene(intro3,0,0,pygame.K_SPACE)
+fadein(game_start,screen,2,True)
 main_game()
 
 
