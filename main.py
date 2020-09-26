@@ -1,5 +1,6 @@
 import pygame
 import random
+from fadein import *
 pygame.mixer.pre_init()
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -156,6 +157,7 @@ class myObject():
                                 if event.key == pygame.K_SPACE:
                                     goatVoice()
                                     self.talking_goat =True
+                                    # print("goat")
                                     return self.talking_goat 
         self.talking_goat =False
         return self.talking_goat
@@ -312,7 +314,17 @@ def displayText(surface,message,x,y,size,r,g,b):
     textImage = myfont.render(message, True, (r,g,b))
     surface.blit(textImage,(x,y))
 
-
+def stillScene(picture,x,y,button):
+	done = False
+	while not done:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				quit()
+			elif event.type == pygame.KEYDOWN: 
+				if event.key == button:
+					done = True
+			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
+			pygame.display.flip()
 
 
 
@@ -331,23 +343,6 @@ goat3 = pygame.mixer.Sound("./assets/sounds/goat3.ogg")
 goat4 = pygame.mixer.Sound("./assets/sounds/goat4.ogg")
 goat5 = pygame.mixer.Sound("./assets/sounds/goat5.ogg")
 
-
-
-#================================================TITLE AND INTRO===========================================================
-
-def stillScene(picture,x,y,button):
-	done = False
-	while not done:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				quit()
-			elif event.type == pygame.KEYDOWN: 
-				if event.key == button:
-					done = True
-			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
-			pygame.display.flip()
-
-stillScene(title,0,0,pygame.K_RETURN)
 #================================================MAIN GAME LOOP============================================================
 
 #game information
@@ -397,8 +392,6 @@ def main_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                print("hi")
 
         player_info = me.info() # return [self.x,self.y,self.w,self.h,self.hp,self.image,self.screen,self.exit_right,self.exit_left,self.exit_top,self.exit_bottom]
 
@@ -418,7 +411,8 @@ def main_game():
         clock.tick(60)
         pygame.display.flip()
 
-
+fadein(title,screen)
+# stillScene(title,0,0,pygame.K_RETURN)
 main_game()
 
 
