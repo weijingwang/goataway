@@ -241,16 +241,21 @@ class level():
                 self.current_background_count_x=2
                 self.current_background_count_y=3
                 self.current_level_walls_exits = [[0,"exit"],[800,"exit"],[0,"wall"],[520,"wall"]]
-
+            elif self.background_count_x==3 and self.background_count_y==3:
+                self.current_background = pygame.image.load("./assets/x3y3.png")
+                self.current_background_count_x=3
+                self.current_background_count_y=3
+                self.current_level_walls_exits = [[0,"exit"],[800,"wall"],[0,"wall"],[520,"wall"]]
+            print(self.background_count_x,self.background_count_y)
             return self.current_level_walls_exits
 
     def decide_background(self,player_exit_right,player_exit_left,player_exit_top,player_exit_bottom):
         # print("current coords: ", self.background_count_x,self.background_count_y)
-        if self.background_count_x>=2:
-            self.background_count_x=2
+        # if self.background_count_x>=2:
+        #     self.background_count_x=2
 
-        elif self.background_count_x<=0:
-            self.background_count_x=0
+        # elif self.background_count_x<=0:
+        #     self.background_count_x=0
 
         if player_exit_right==True:
             self.background_count_x+=1
@@ -361,7 +366,15 @@ def render_all_objects(level_info,object_info,playerX,playerY,playerW,playerH):
             draw_goat.draw()
             draw_goat.collision_check(playerX,playerY,playerW,playerH)
             if do_diologue ==True:
-                gameIntro(screen,"second")
+                gameIntro(screen,"worm")
+                do_diologue= False
+    elif background_x == 3 and background_y == 3:
+        for goat in object_info[9]:
+            draw_goat = myObject(goat[0],goat[1],goat[2],goat[3],goat[4],goat[5],goat[6])
+            draw_goat.draw()
+            draw_goat.collision_check(playerX,playerY,playerW,playerH)
+            if do_diologue ==True:
+                gameIntro(screen,"waterfall")
                 do_diologue= False
     else:
         pass
@@ -508,6 +521,56 @@ def gameIntro(surface,which_diologue):
                 if skip == True or pictureCount > 5:
                     done = True
 
+            if which_diologue == "worm":
+                if pictureCount == 0:
+                    sayWhat = "worms are good for the earth."
+                elif pictureCount == 1:
+                    person = worm
+                    sayWhat = "hello player. I am a worm."
+                elif pictureCount == 2:
+                    person = face_player
+                    sayWhat = "hey guys hey guys"
+                elif pictureCount == 3:
+                    person = goat
+                    goatVoice()
+                    sayWhat = "baaaaa baaaa aaaaaa"
+                elif pictureCount ==4:
+                    person = face_player
+                    sayWhat = "where are these goats coming from! they are so annoying!"
+                elif pictureCount ==5:
+                    person=worm
+                    sayWhat = "please take one of my sons with you"
+                    goatVoice()
+                elif pictureCount ==6:
+                    person=face_player
+                    sayWhat = "....... no"
+                elif pictureCount ==7:
+                    person=worm
+                    sayWhat = "............."
+                elif pictureCount ==8:
+                    person=face_player
+                    sayWhat = "............."
+                if skip == True or pictureCount > 8:
+                    done = True
+
+            if which_diologue == "waterfall":
+                if pictureCount == 0:
+                    person = goat
+                    goatVoice()
+                    sayWhat = "oh yeah yeah oh yeah yeah"
+                elif pictureCount == 1:
+                    person = face_player
+                    sayWhat = "party goats!"
+                elif pictureCount == 2:
+                    person = goat
+                    goatVoice()
+                    sayWhat = "oh yeah yeah oh yeah yeah"
+                elif pictureCount == 3:
+                    person = face_player
+                    goatVoice()
+                    sayWhat = "oh yeah yeah oh yeah yeah"
+                if skip == True or pictureCount > 3:
+                    done = True
         pygame.draw.rect(surface, (0,0,0), pygame.Rect(0, 500, 800, 100))
 
 
@@ -528,6 +591,7 @@ game_start = pygame.image.load(("./assets/game_start.png"))
 goat = pygame.image.load("./assets/goat.png")
 monk = pygame.image.load("./assets/monk.png")
 walkie_talkie = pygame.image.load("./assets/walkie_talkie.png")
+worm= pygame.image.load("./assets/worm.png")
 face_colonel = pygame.image.load("./assets/face_colonel.png")
 face_player = pygame.image.load("./assets/face_player.png")
 #music
@@ -587,11 +651,23 @@ my_objects = [
         ],
     #1,3
     [
-        [0,180,200,100,"poo",walkie_talkie,screen],
+        [0,180,200,100,"poo",walkie_talkie,screen]
         ],
     #2,3
     [
+        [20,300,200,100,"poo",worm,screen]
         ],
+    #3,3
+    [
+        [50,150,150,164,"poo",goat,screen],
+        [100,400,150,164,"poo",goat,screen],
+        [300,500,150,164,"poo",goat,screen],
+        [600,200,150,164,"poo",goat,screen],
+        [10,100,150,164,"poo",goat,screen],
+        [400,400,150,164,"poo",goat,screen],
+        [500,500,150,164,"poo",goat,screen],
+        [600,600,150,164,"poo",goat,screen]
+        ]
 ]
 def main_game():
     done = False
