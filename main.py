@@ -314,7 +314,7 @@ def displayText(surface,message,x,y,size,r,g,b):
     textImage = myfont.render(message, True, (r,g,b))
     surface.blit(textImage,(x,y))
 
-def stillScene(picture,x,y,button):
+def stillScene(image,x,y,button):
 	done = False
 	while not done:
 		for event in pygame.event.get():
@@ -323,7 +323,7 @@ def stillScene(picture,x,y,button):
 			elif event.type == pygame.KEYDOWN: 
 				if event.key == button:
 					done = True
-			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
+			screen.blit(image,(x,y))
 			pygame.display.flip()
 
 
@@ -332,6 +332,7 @@ def stillScene(picture,x,y,button):
 
 #images
 title = pygame.image.load(("./assets/title.png"))
+game_start = pygame.image.load(("./assets/game_start.png"))
 goat = pygame.image.load("./assets/goat.png")
 #music
 pygame.mixer.music.load("./assets/sounds/poo_short.mp3") 
@@ -411,7 +412,11 @@ def main_game():
         clock.tick(60)
         pygame.display.flip()
 
-fadein(title,screen)
+fadein(title,screen,0.5,False)
+#intro story
+stillScene(goat,0,0,pygame.K_RETURN)
+fadein(game_start,screen,2,True)
+
 # stillScene(title,0,0,pygame.K_RETURN)
 main_game()
 
