@@ -1,7 +1,7 @@
 import pygame
 import random
 from fadein import *
-
+from displayText import *
 pygame.mixer.pre_init()
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
