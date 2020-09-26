@@ -149,11 +149,14 @@ class myObject():
             if pX <= self.x+self.w:
                 if pY+pH >= self.y: #check y axis
                     if pY <= self.y+self.h:
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_SPACE:
-                                goatVoice()
-                                self.talking_goat =True
-                                return self.talking_goat 
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                done = True
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_SPACE:
+                                    goatVoice()
+                                    self.talking_goat =True
+                                    return self.talking_goat 
         self.talking_goat =False
         return self.talking_goat
 
@@ -344,55 +347,56 @@ def stillScene(picture,x,y,button):
 			screen.blit(pygame.transform.scale(picture,(800,600)),(x,y))
 			pygame.display.flip()
 
-
+stillScene(title,0,0,pygame.K_RETURN)
 #================================================MAIN GAME LOOP============================================================
 
 #game information
-def pleaseWork():
-    x1y0 = level(screen)
-    me = player(100,100,185,400,100,screen)
-    my_objects = [
-        #0,0
-        [
-            [600,150,75,82,"poo",goat,screen],
-            [50,200,75,82,"poo",goat,screen],
-            [330,400,75,82,"poo",goat,screen]
-            ],
-        #1,0
-        [
-            [500,200,75,82,"poo",goat,screen],
-            [100,400,75,82,"poo",goat,screen]
-            ],
-        #2,0
-        [
-            [400,200,75,82,"poo",goat,screen],
-            [100,400,75,82,"poo",goat,screen],
-            [300,500,75,82,"poo",goat,screen]
-            ],
-        #0,1
-        [
-            [400,100,75,82,"poo",goat,screen],
-            [100,400,75,82,"poo",goat,screen],
-            [300,500,75,82,"poo",goat,screen]
-            ],
-        #1,1
-        [
-            [200,300,75,82,"poo",goat,screen],
-            ],
-        #2,1
-        [
-            [50,150,75,82,"poo",goat,screen],
-            [100,400,75,82,"poo",goat,screen],
-            [300,500,75,82,"poo",goat,screen],
-            [600,200,75,82,"poo",goat,screen]
-            ],
 
-    ]
+x1y0 = level(screen)
+me = player(100,100,185,400,100,screen)
+my_objects = [
+    #0,0
+    [
+        [600,150,75,82,"poo",goat,screen],
+        [50,200,75,82,"poo",goat,screen],
+        [330,400,75,82,"poo",goat,screen]
+        ],
+    #1,0
+    [
+        [500,200,75,82,"poo",goat,screen],
+        [100,400,75,82,"poo",goat,screen]
+        ],
+    #2,0
+    [
+        [400,200,75,82,"poo",goat,screen],
+        [100,400,75,82,"poo",goat,screen],
+        [300,500,75,82,"poo",goat,screen]
+        ],
+    #0,1
+    [
+        [400,100,75,82,"poo",goat,screen],
+        [100,400,75,82,"poo",goat,screen],
+        [300,500,75,82,"poo",goat,screen]
+        ],
+    #1,1
+    [
+        [200,300,75,82,"poo",goat,screen],
+        ],
+    #2,1
+    [
+        [50,150,75,82,"poo",goat,screen],
+        [100,400,75,82,"poo",goat,screen],
+        [300,500,75,82,"poo",goat,screen],
+        [600,200,75,82,"poo",goat,screen]
+        ],
+
+]
+def main_game():
     done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done = True
+                quit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 print("hi")
 
@@ -415,7 +419,6 @@ def pleaseWork():
         pygame.display.flip()
 
 
+main_game()
 
-stillScene(title,0,0,pygame.K_RETURN)
 
-pleaseWork()
