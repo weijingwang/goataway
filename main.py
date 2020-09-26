@@ -817,13 +817,19 @@ def gameIntro(surface,which_diologue):
                     person = goat
                     sayWhat = "..."
                 elif pictureCount == 2:
+                    person = goat
+                    sayWhat = "you are sin in the form of man......."
+                elif pictureCount == 3:
+                    person = face_player
+                    sayWhat = "............"                
+                elif pictureCount == 4:
                     person = black
                     sayWhat = "you are still stuck on the island but"
-                elif pictureCount == 3:
-                    sayWhat = "perhaps big goat could help you in the near future......"
-                elif pictureCount == 4:
-                    sayWhat = "Thanks for playing! all the code, music and art was by me"
                 elif pictureCount == 5:
+                    sayWhat = "perhaps big goat could help you in the near future......"
+                elif pictureCount == 6:
+                    sayWhat = "Thanks for playing! all the code, music and art was by me"
+                elif pictureCount == 7:
                     sayWhat = "THE END"
                 if skip == True or pictureCount > 5:
                     ENDING = True
